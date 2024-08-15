@@ -25,6 +25,8 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
+ *
+ * 相当于ExtensionLoader的Manager类，根据类型来获取ExtensionLoader
  * ExtensionDirector is a scoped extension loader manager.
  *
  * <p></p>
@@ -34,11 +36,31 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class ExtensionDirector implements ExtensionAccessor {
 
     private final ConcurrentMap<Class<?>, ExtensionLoader<?>> extensionLoadersMap = new ConcurrentHashMap<>(64);
+
+    /**
+     * spi接口对应的 scope范围
+     */
     private final ConcurrentMap<Class<?>, ExtensionScope> extensionScopeMap = new ConcurrentHashMap<>(64);
+    /**
+     * self -> module -> application -> framework
+     */
     private final ExtensionDirector parent;
+    /**
+     * 扩展SPI 所在的作用域
+     */
     private final ExtensionScope scope;
+
+    /**
+     * 类似BeanPostProcessor, 扩展的后置处理器
+     */
     private final List<ExtensionPostProcessor> extensionPostProcessors = new ArrayList<>();
+    /**
+     * 抽象的 作用域model
+     */
     private final ScopeModel scopeModel;
+    /**
+     * 是否已经销毁
+     */
     private final AtomicBoolean destroyed = new AtomicBoolean();
 
     public ExtensionDirector(ExtensionDirector parent, ExtensionScope scope, ScopeModel scopeModel) {
@@ -87,18 +109,19 @@ public class ExtensionDirector implements ExtensionAccessor {
             extensionScopeMap.put(type, scope);
         }
 
+        // 如果是self生命周期，直接自己创建
         if (loader == null && scope == ExtensionScope.SELF) {
             // create an instance in self scope
             loader = createExtensionLoader0(type);
         }
-
+        // 如果是其他模式，获取本地无法创建，就会类似于jvm类加载机制，委派机制
         // 2. find in parent
         if (loader == null) {
             if (this.parent != null) {
                 loader = this.parent.getExtensionLoader(type);
             }
         }
-
+        // 如果都没有加载器
         // 3. create it
         if (loader == null) {
             loader = createExtensionLoader(type);
@@ -120,11 +143,17 @@ public class ExtensionDirector implements ExtensionAccessor {
     private <T> ExtensionLoader<T> createExtensionLoader0(Class<T> type) {
         checkDestroyed();
         ExtensionLoader<T> loader;
+        // 并发处理
         extensionLoadersMap.putIfAbsent(type, new ExtensionLoader<T>(type, this, scopeModel));
         loader = (ExtensionLoader<T>) extensionLoadersMap.get(type);
         return loader;
     }
 
+    /**
+     * SPI声明的生命周期 和 扩展器的生命周期一致
+     * @param type
+     * @return
+     */
     private boolean isScopeMatched(Class<?> type) {
         final SPI defaultAnnotation = type.getAnnotation(SPI.class);
         return defaultAnnotation.scope().equals(scope);

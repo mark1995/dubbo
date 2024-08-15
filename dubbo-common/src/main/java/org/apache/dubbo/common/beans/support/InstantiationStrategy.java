@@ -43,6 +43,15 @@ public class InstantiationStrategy {
         this.scopeModelAccessor = scopeModelAccessor;
     }
 
+
+    /**
+     * 初始化 一个类型的class
+     * 优先使用有参数的构造器
+     * @param type
+     * @return
+     * @param <T>
+     * @throws ReflectiveOperationException
+     */
     @SuppressWarnings("unchecked")
     public <T> T instantiate(Class<T> type) throws ReflectiveOperationException {
 

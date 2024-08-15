@@ -79,6 +79,9 @@ public abstract class ScopeModel implements ExtensionAccessor {
     private final AtomicBoolean destroyed = new AtomicBoolean(false);
     private final boolean internalScope;
 
+    /**
+     * 初始化锁
+     */
     protected final Object instLock = new Object();
 
     protected ScopeModel(ScopeModel parent, ExtensionScope scope, boolean isInternal) {
@@ -88,6 +91,9 @@ public abstract class ScopeModel implements ExtensionAccessor {
     }
 
     /**
+     *
+     *
+     * instLock 可重入锁
      * NOTE:
      * <ol>
      *  <li>The initialize method only be called in subclass.</li>

@@ -31,6 +31,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * OrderComparator
+ *
+ * 激活顺序
  */
 public class ActivateComparator implements Comparator<Class<?>> {
 

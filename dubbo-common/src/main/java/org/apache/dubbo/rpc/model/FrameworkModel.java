@@ -39,6 +39,9 @@ import java.util.stream.Collectors;
 
 /**
  * Model of dubbo framework, it can be shared with multiple applications.
+ *
+ *
+ * dubbo框架 模型， 可以在多个application被应用
  */
 public class FrameworkModel extends ScopeModel {
 
@@ -53,6 +56,9 @@ public class FrameworkModel extends ScopeModel {
 
     private volatile static FrameworkModel defaultInstance;
 
+    /**
+     * 管理所有的 FrameworkModel
+     */
     private static final List<FrameworkModel> allInstances = new CopyOnWriteArrayList<>();
 
     // ========================= Static Fields End ===================================

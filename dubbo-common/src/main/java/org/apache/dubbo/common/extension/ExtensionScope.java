@@ -24,6 +24,11 @@ import org.apache.dubbo.rpc.model.ModuleModel;
  * Extension SPI Scope
  * @see SPI
  * @see ExtensionDirector
+ *
+ * 方便管理扩展点的生命周期和作用域
+ *
+ * 优化资源，提高性能，确保线程安全
+ * 明确作用域，有利于结构清晰
  */
 public enum ExtensionScope {
 

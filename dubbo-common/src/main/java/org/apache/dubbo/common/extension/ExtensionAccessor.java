@@ -18,9 +18,16 @@ package org.apache.dubbo.common.extension;
 
 /**
  * Uniform accessor for extension
+ *
+ * SPI扩展 统一的访问接口
+ * 也是比较新颖的一种 静态方法
  */
 public interface ExtensionAccessor {
 
+    /**
+     * 获取在不同上下文下的 扩展管理器
+     * @return
+     */
     ExtensionDirector getExtensionDirector();
 
     default <T> ExtensionLoader<T> getExtensionLoader(Class<T> type) {

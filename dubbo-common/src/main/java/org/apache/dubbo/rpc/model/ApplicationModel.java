@@ -112,9 +112,11 @@ public class ApplicationModel extends ScopeModel {
             this.internalModule = new ModuleModel(this, true);
             this.serviceRepository = new ServiceRepository(this);
 
+            // 获取ApplicationListener spi 扩展器
             ExtensionLoader<ApplicationInitListener> extensionLoader = this.getExtensionLoader(ApplicationInitListener.class);
             Set<String> listenerNames = extensionLoader.getSupportedExtensions();
             for (String listenerName : listenerNames) {
+                // 初始化并调用他的init方法
                 extensionLoader.getExtension(listenerName).init();
             }
 

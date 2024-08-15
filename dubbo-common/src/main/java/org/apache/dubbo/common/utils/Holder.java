@@ -21,6 +21,8 @@ package org.apache.dubbo.common.utils;
  */
 public class Holder<T> {
 
+    // 由于 value 字段被声明为 volatile，这保证了多线程环境下对 value 的读写操作是原子的。
+    // 这意味着即使多个线程同时访问 Holder 对象，也不会出现数据不一致的问题。
     private volatile T value;
 
     public void set(T value) {

@@ -18,6 +18,9 @@ package org.apache.dubbo.common.extension;
 
 import org.apache.dubbo.common.lang.Prioritized;
 
+/**
+ * 指定目录 加载对应的class
+ */
 public interface LoadingStrategy extends Prioritized {
 
     String directory();
