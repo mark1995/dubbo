@@ -47,6 +47,8 @@ import static org.apache.dubbo.common.constants.CommonConstants.SHUTDOWN_WAIT_SE
 
 /**
  * Utilities for manipulating configurations from different sources
+ *
+ * 相当于门面 配置中心的
  */
 public final class ConfigurationUtils {
 

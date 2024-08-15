@@ -31,6 +31,8 @@ import static org.apache.dubbo.common.constants.CommonConstants.DEFAULT_KEY;
  */
 public abstract class AbstractDynamicConfigurationFactory implements DynamicConfigurationFactory {
 
+    // volatile 可以让 dynamicConfigurations 引用修改时，对其他线程可见
+    // 如果确定引用不会被修改的话，可以指定为final 限制一下
     private volatile ConcurrentHashMap<String, DynamicConfiguration> dynamicConfigurations = new ConcurrentHashMap<>();
 
     @Override

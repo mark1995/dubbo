@@ -38,6 +38,9 @@ import java.util.concurrent.locks.Lock;
 
 import static org.apache.dubbo.common.constants.LoggerCodeConstants.CONFIG_UNABLE_DESTROY_MODEL;
 
+/**
+ * dubbo中 生命周期 模型
+ */
 public abstract class ScopeModel implements ExtensionAccessor {
     protected static final ErrorTypeAwareLogger LOGGER = LoggerFactory.getErrorTypeAwareLogger(ScopeModel.class);
 
@@ -66,10 +69,20 @@ public abstract class ScopeModel implements ExtensionAccessor {
     private final Set<ClassLoader> classLoaders = new ConcurrentHashSet<>();
 
     private final ScopeModel parent;
+
+    /**
+     * 对应的生命周期
+     */
     private final ExtensionScope scope;
 
+    /**
+     * extension的领导者，有点门面模式的味道
+     */
     private volatile ExtensionDirector extensionDirector;
 
+    /**
+     * 生命周期下的 bean 工厂
+     */
     private volatile ScopeBeanFactory beanFactory;
     private final List<ScopeModelDestroyListener> destroyListeners = new CopyOnWriteArrayList<>();
 
